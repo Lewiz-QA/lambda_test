@@ -1,36 +1,44 @@
+//require('dotenv').config();
 const {join} = require('path')
 const allure = require('allure-commandline')
 const video = require('wdio-video-reporter')
+const True = true
 
 exports.config = {
-    //hostname: 'localhost', //Comentários para rodar no Emulador. Atualmente está para rodar no BrowserStack
+    //hostname: 'localhost', //Comentários para rodar no Emulador. Atualmente está para rodar no LambdaTest
     //port: 4725,
     //path: '/wd/hub',
-    user: "luizmenon_46bPFI",
-    key: "8NgvkQKxhnRpWEaHrxyo",
+    product: 'appAutomation',
+    user: process.env.LT_USERNAME || "lewizmenon",
+    key: process.env.LT_ACCESS_KEY || "7wtlbyNURkepIBNATaQxeRb6VDejGimxS9hIEwC5qGtrqyr5Gd",
+    logFile : './logDir/api.log',
+    hostname: 'https://mobile-hub.lambdatest.com',
+    path: '/wd/hub',
+    port: 80,
 
     //services: ['appium'],
-    services: ['browserstack'],
+    services: [
+      ['lambdatest', {
+          tunnel: True
+      }]
+  ],
     specs: [
         './test/specs/*.spec.js'
     ],
     framework: 'mocha',
     
     capabilities: [{
-        //"platformName": "Android",
-        //"platformVersion": "9.0",
-        //"deviceName": "ebac-qe",
-        //"automationName": "UiAutomator2",
-        //"app": join(process.cwd(), './app/android/loja-ebac.apk'),
-        //"appWaitActivity": "com.woocommerce.android.ui.login.LoginActivity",
-        //'newCommandTimeout': 240    
-        'app' : 'bs://767ae1765354fafd90cb0a56fd1d6e9733b47150',
-        'device' : 'Samsung Galaxy S22 Plus',
-        'os_version' : '12.0',
-        'project' : 'Meu primeiro projeto em Device Farm',
-        'build' : '1',
-        'name': 'teste_login'
-      }],
+      "user": "lewizmenon",
+      "accessKey": "7wtlbyNURkepIBNATaQxeRb6VDejGimxS9hIEwC5qGtrqyr5Gd",
+      "deviceName": "Galaxy S20",
+      "platformName": "Android",
+      "platformVersion": "10",
+      "app": "loja-ebac",
+      "visual": True,
+      "console": True,
+      "deviceOrientation": "PORTRAIT",
+      "isRealMobile": True,
+  }],
 
       waitForTimeout: 20000,
       mochaOpts: {
